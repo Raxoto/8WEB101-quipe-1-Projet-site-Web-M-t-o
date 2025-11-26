@@ -1,0 +1,155 @@
+/* src/App.css */
+:root {
+  --primary-color: #2c3e50;
+  --accent-color: #3498db;
+  --bg-color: #f5f7fa;
+  --text-color: #333;
+}
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header */
+.header {
+  height: 60px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: 2px solid var(--text-color);
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+.search-bar {
+  background: #eee;
+  padding: 5px 15px;
+  border-radius: 15px;
+  color: #777;
+}
+
+/* Main Layout */
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Left: 3D Earth */
+.earth-container {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  background: black;
+  overflow: hidden;
+}
+
+.overlay-title {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: white;
+  background: rgba(0,0,0,0.5);
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.earth-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  gap: 10px;
+}
+
+.earth-controls button {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid white;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.earth-controls button:hover {
+  background: white;
+  color: black;
+}
+
+/* Right: Articles */
+.articles-container {
+  flex: 0 0 40%;
+  overflow-y: auto; /* juste la partie d'article qui bouge */
+  min-width: 350px;
+  padding: 2rem;
+  background: white;
+  border-left: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.hero-section {
+  background: #e0f7fa;
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.article-card {
+  background: white;
+  border: 1px solid #eee;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.article-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* highlight quand choisi */
+.article-card.active {
+  border: 2px solid var(--accent-color);
+  background-color: #f0f9ff;
+}
+
+.article-section {
+  margin-top: 1rem;
+}
+
+.interaction-hint {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  font-weight: bold;
+}
