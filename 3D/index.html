@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Babylon.js – Sphère 3D</title>
+  <style>
+    html, body { height: 100%; margin: 0; overflow: hidden; background: #0f1115; }
+    #renderCanvas { width: 100%; height: 100%; touch-action: none; }
+    .ui {
+      position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+      background: rgba(0,0,0,.45); backdrop-filter: blur(6px);
+      border-radius: 14px; padding: 10px 16px; box-shadow: 0 6px 24px rgba(0,0,0,.35);
+      color: #eaeaea; font-family: system-ui, sans-serif;
+      display: flex; align-items: center; gap: 12px;
+    }
+    input[type="range"] { width: 240px; }
+    label { font-size: 14px; }
+  </style>
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+
+  <!--div class="ui">
+    <label for="rot">Rotation (°)</label>
+    <input id="rot" type="range" min="-180" max="180" step="1" value="0" />
+    <span id="deg">0°</span>
+  </div-->
+
+  <!-- Babylon.js CDN -->
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+
+    const MODEL_URL = "./models/earth2.glb"; // Ton modèle Blender exporté
+    const MODEL_URLN = "./models/nuage.glb"; // Ton modèle Blender exporté
+
+    const createScene = async function () {
+      const scene = new BABYLON.Scene(engine);
+      scene.clearColor = new BABYLON.Color3(0.06, 0.07, 0.09);
+
+      // Caméra orbitale (drag = rotation, molette = zoom)
+      const camera = new BABYLON.ArcRotateCamera("camera",
+        BABYLON.Tools.ToRadians(90), BABYLON.Tools.ToRadians(60),
+        3, BABYLON.Vector3.Zero(), scene);
+      camera.attachControl(canvas, true);
+      camera.wheelPrecision = 50;
+      camera.minZ = 0.1;
+      camera.lowerRadiusLimit = 1;
+      camera.upperRadiusLimit = 15;
+
+      // Lumières
+      const light1 = new BABYLON.HemisphericLight("h1", new BABYLON.Vector3(0, 1, 0), scene);
+      light1.intensity = 0.7;
+      const light2 = new BABYLON.DirectionalLight("dir", new BABYLON.Vector3(-1, -2, -1), scene);
+      light2.intensity = 1.2;
+
+      // Sol (optionnel)
+
+      // Ombres
+      const shadowGenerator = new BABYLON.ShadowGenerator(2048, light2);
+      shadowGenerator.useBlurExponentialShadowMap = true;
+
+      //Background
+      scene.environmentTexture = new BABYLON.HDRCubeTexture(
+          "models/space.hdr",
+          scene,
+          512
+      );
+
+scene.createDefaultSkybox(scene.environmentTexture, true, 1000);
+
+      // Chargement du modèle GLB TERRE
+      let rootMesh;
+      try {
+        const result = await BABYLON.SceneLoader.ImportMeshAsync("", "models/", "earth2.glb", scene);
+        rootMesh = result.meshes[0];
+        rootMesh.position.y = 0;
+        rootMesh.scaling = new BABYLON.Vector3(1, 1, 1);
+        shadowGenerator.addShadowCaster(rootMesh);
+        console.log("Modèles chargés ✅");
+      } catch (err) {
+        console.error("Erreur de chargement ❌", err);
+        // Fallback sphère
+        rootMesh = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 2, segments: 64 }, scene);
+        const mat = new BABYLON.StandardMaterial("mat", scene);
+        mat.diffuseColor = new BABYLON.Color3(0.23, 0.63, 1);
+        mat.specularPower = 64;
+        rootMesh.material = mat;
+      }
+
+      //Nuage
+      let sphere;
+      try {
+          const resultN = await BABYLON.SceneLoader.ImportMeshAsync("", "models/", "nuage.glb", scene);
+
+          // Chercher un vrai mesh (pas un transform node)
+          sphere = resultN.meshes.find(m => m.geometry != null);
+
+          if (!sphere) {
+              throw new Error("Aucun mesh valide dans nuage.glb");
+          }
+
+          // Material
+          const mat = new BABYLON.StandardMaterial("matHover", scene);
+          mat.diffuseColor = new BABYLON.Color3(0.7, 0.7, 0.7);
+          sphere.material = mat;
+
+          // Transformations
+          sphere.scaling = new BABYLON.Vector3(0.04, 0.04, 0.04);
+          sphere.rotation = new BABYLON.Vector3(0, 2, 0);
+          sphere.position.y = 0.80;
+          sphere.position.x = 0.80;
+
+          shadowGenerator.addShadowCaster(sphere);
+
+          console.log("Gros Nuage chargé ✅");
+          console.log("Mesh utilisé :", sphere);
+          console.log("Bounding info :", sphere.getBoundingInfo().boundingBox);
+
+      } catch (err) {
+          console.error("Erreur de chargement ❌", err);
+      }
+
+      const advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+      const rect = new BABYLON.GUI.Rectangle();
+      rect.width = "200px";
+      rect.height = "30px";
+      rect.cornerRadius = 20;
+      rect.color = "white";
+      rect.thickness = 2;
+      rect.background = "rgba(0,0,0,0.5)";
+
+      const textBlock = new BABYLON.GUI.TextBlock();
+      textBlock.text = "CECI EST UN GROS NUAGE !";
+      textBlock.color = "white";
+      textBlock.fontSize = 10;
+
+      rect.addControl(textBlock);
+      advancedTexture.addControl(rect);
+
+      // Attacher au mesh
+      rect.linkWithMesh(sphere);
+      rect.linkOffsetY = -40; // décalage vers le haut
+      advancedTexture.addControl(rect);
+      rect.isVisible = false;
+
+      //Tornade
+      let Cone;
+      try {
+          const resultN = await BABYLON.SceneLoader.ImportMeshAsync("", "models/", "cone.glb", scene);
+
+          // Chercher un vrai mesh (pas un transform node)
+          Cone = resultN.meshes.find(m => m.geometry != null);
+
+          if (!Cone) {
+              throw new Error("Aucun mesh valide dans nuage.glb");
+          }
+
+          // Material
+          const mat = new BABYLON.StandardMaterial("matHover", scene);
+          mat.diffuseColor = new BABYLON.Color3(0.7, 0.7, 0.7);
+          Cone.material = mat;
+
+          // Transformations
+          Cone.scaling = new BABYLON.Vector3(0.03, 0.03, 0.03);
+          Cone.rotation = new BABYLON.Vector3(- 2.4, 0, 0);
+          Cone.position.y = 0.70;
+          Cone.position.z = 0.70;
+
+          shadowGenerator.addShadowCaster(Cone);
+
+          console.log("Gros Cone chargé ✅");
+          console.log("Mesh utilisé :", Cone);
+          console.log("Bounding info :", Cone.getBoundingInfo().boundingBox);
+
+      } catch (err) {
+          console.error("Erreur de chargement ❌", err);
+      }
+
+
+      // Slider de rotation
+      //const rotInput = document.getElementById("rot");
+      //const degLabel = document.getElementById("deg");
+      //rotInput.addEventListener("input", () => {
+      //  const deg = parseFloat(rotInput.value);
+      //  degLabel.textContent = `${deg}°`;
+      //  rootMesh.rotation.y = BABYLON.Tools.ToRadians(deg);
+      //});
+
+
+
+
+      // MA GROSSE SPHERE POUR MES TEST !!!
+      
+
+      const actionManager = new BABYLON.ActionManager(scene);
+      sphere.actionManager = actionManager;
+
+      // 🌟 Effet visuel au survol
+      let originalColor = null;
+      sphere.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+          BABYLON.ActionManager.OnPointerOverTrigger,
+          function () {
+            if (sphere.material && !originalColor) {
+              sphere.scaling = new BABYLON.Vector3(0.045, 0.045, 0.045);
+              originalColor = sphere.material.diffuseColor.clone();
+              sphere.material.diffuseColor = new BABYLON.Color3(1, 0.5, 0.1); // orange sur survol
+              document.body.style.cursor = "pointer"; // curseur main
+              rect.isVisible = true;
+            }
+          }
+        )
+      );
+
+      // 🔄 Retour à la couleur d’origine quand on quitte
+      sphere.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+          BABYLON.ActionManager.OnPointerOutTrigger,
+          function () {
+            if (originalColor) {
+              sphere.scaling = new BABYLON.Vector3(0.04, 0.04, 0.04);
+              sphere.material.diffuseColor = originalColor.clone();
+              originalColor = null;
+             document.body.style.cursor = "default";
+             rect.isVisible = false;
+            }
+          }
+        )
+      );
+
+      // 🖱️ Action au clic : ouvrir un lien dans un nouvel onglet
+      sphere.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+          BABYLON.ActionManager.OnPickTrigger,
+         function () {
+            window.open("test.html", "_blank");
+          }
+        )
+      );
+
+
+
+
+
+      // MON GORS CONE POUR MES TEST !!!
+      
+
+      const actionManager2 = new BABYLON.ActionManager(scene);
+      Cone.actionManager = actionManager2;
+
+      // 🌟 Effet visuel au survol
+      let originalColor2 = null;
+      Cone.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+          BABYLON.ActionManager.OnPointerOverTrigger,
+          function () {
+            if (Cone.material && !originalColor2) {
+              Cone.scaling = new BABYLON.Vector3(0.035, 0.035, 0.035);
+              originalColor2 = Cone.material.diffuseColor.clone();
+              Cone.material.diffuseColor = new BABYLON.Color3(1, 0.5, 0.1); // orange sur survol
+              document.body.style.cursor = "pointer"; // curseur main
+            }
+          }
+        )
+      );
+
+      // 🔄 Retour à la couleur d’origine quand on quitte
+      Cone.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+          BABYLON.ActionManager.OnPointerOutTrigger,
+          function () {
+            if (originalColor2) {
+              Cone.scaling = new BABYLON.Vector3(0.03, 0.03, 0.03);
+              Cone.material.diffuseColor = originalColor2.clone();
+              originalColor2 = null;
+             document.body.style.cursor = "default";
+            }
+          }
+        )
+      );
+
+      // 🖱️ Action au clic : ouvrir un lien dans un nouvel onglet
+      Cone.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+          BABYLON.ActionManager.OnPickTrigger,
+         function () {
+            window.open("test2.html", "_blank");
+          }
+        )
+      );      
+
+
+      return scene;
+    };
+
+    createScene().then((scene) => {
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    });
+
+    window.addEventListener("resize", () => engine.resize());
+  </script>
+</body>
+</html>

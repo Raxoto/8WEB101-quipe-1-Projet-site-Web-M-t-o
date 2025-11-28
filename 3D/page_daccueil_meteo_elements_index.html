@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Les éléments météorologiques — Accueil</title>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background: #f3f6fa;
+      margin: 0;
+      padding: 0;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header{
+      background: #3a6ea5;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1{
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p{
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+
+    main{
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .intro{
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    h2{
+      color: #3a6ea5;
+    }
+
+    .sections{
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .card{
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform .2s;
+    }
+
+    .card:hover{
+      transform: scale(1.02);
+    }
+
+    footer{
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: #e7eff7;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Les éléments météorologiques</h1>
+    <p>Comprendre les phénomènes qui influencent notre météo quotidienne</p>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Bienvenue</h2>
+      <p>
+        Cette page d'accueil introduit les principaux éléments météorologiques : nuages, pluie, vent, température, pression, et autres phénomènes qui façonnent notre climat. Vous y trouverez des explications simples et accessibles destinées à un article ou un dossier éducatif.
+      </p>
+    </section>
+
+    <!-- Prévisualisation de la page 2 -->
+    <section style="margin-top:20px;">
+      <h2>Page 2 — Prévisualisation</h2>
+      <iframe src="index.html" width="100%" height="500" style="border:1px solid #ccc; border-radius:10px;"></iframe>
+    </section>
+
+    <section class="sections">
+      <div class="card">
+        <h3>Les nuages</h3>
+        <p>Types de nuages, formation, altitude et rôle dans la prédiction du temps.</p>
+      </div>
+
+      <div class="card">
+        <h3>La pluie et les précipitations</h3>
+        <p>Cycle de l'eau, conditions d'apparition de la pluie, neige, grêle et intensités.</p>
+      </div>
+
+      <div class="card">
+        <h3>Le vent</h3>
+        <p>Origine des vents, courants atmosphériques, vitesse et direction.</p>
+      </div>
+
+      <div class="card">
+        <h3>La température</h3>
+        <p>Pourquoi les températures varient, effets du soleil et des masses d'air.</p>
+      </div>
+
+      <div class="card">
+        <h3>La pression atmosphérique</h3>
+        <p>Pression haute et basse, influence sur le temps et les masses d'air.</p>
+      </div>
+
+      <div class="card">
+        <h3>Les phénomènes extrêmes</h3>
+        <p>Orages, cyclones, canicules : comment se forment-ils ?</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © Article — Les éléments météorologiques
+  </footer>
+</body>
+</html>
