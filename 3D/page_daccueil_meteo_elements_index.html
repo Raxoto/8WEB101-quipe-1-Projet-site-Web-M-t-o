@@ -1,136 +1,304 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Les éléments météorologiques — Accueil</title>
-  <style>
-    body{
-      font-family: Arial, sans-serif;
-      background: #f3f6fa;
-      margin: 0;
-      padding: 0;
-      color: #222;
-      line-height: 1.6;
-    }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accueil — Phénomènes Météorologiques</title>
 
-    header{
-      background: #3a6ea5;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    header h1{
-      margin: 0;
-      font-size: 2rem;
-    }
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: #001A66;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+            line-height: 1.6;
+        }
 
-    header p{
-      margin-top: 10px;
-      font-size: 1.1rem;
-    }
+        header{
+            background: #e89a59;
+            color: #001A66;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
 
-    main{
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
+        /* Menu utilisateur */
+        #user-menu {
+            position: absolute; top: 20px; right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px; border-radius: 30px;
+            display: flex; align-items: center; gap: 10px;
+            cursor: pointer; transition: background-color 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        #user-menu:hover { background-color: rgba(255, 255, 255, 0.3); }
+        #user-avatar { width:32px; height:32px; border-radius:50%; object-fit:cover; background:#ddd; border:2px solid #001A66; }
+        #user-name { font-weight:bold; font-size:0.95rem; color:#001A66; }
+        #google-button-container { position: absolute; top:0; left:0; width:100%; height:100%; opacity: 0.01; overflow: hidden; z-index: 10; }
 
-    .intro{
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
+        header h1{ margin: 0; font-size: 2rem; }
+        header p{ margin-top: 10px; font-size: 1.1rem; color:#001A66; }
 
-    h2{
-      color: #3a6ea5;
-    }
+        main{ max-width: 900px; margin: 40px auto; padding: 0 20px; }
 
-    .sections{
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
+        .intro{
+            background: #2d6fa8; padding: 20px; border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2); margin-bottom: 30px; color: #ffffff;
+        }
 
-    .card{
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform .2s;
-    }
+        h2{ color: #e89a59; }
 
-    .card:hover{
-      transform: scale(1.02);
-    }
+        .sections{
+            display: grid; gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        
+        a.card {
+            background: #2d6fa8;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: transform .2s;
+            color: #ffffff;
+            display: block; 
+            text-decoration: none; 
+        }
 
-    footer{
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      background: #e7eff7;
-      color: #555;
-    }
-  </style>
+        a.card:hover{ transform: scale(1.02); cursor:pointer; }
+        a.card h3 { margin-top: 0; color: #fff; }
+        a.card p { color: #ddd; }
+        
+        .heart-icon {
+            cursor:pointer;
+            font-size:1.5rem;
+            color:#ccc;
+            z-index: 5;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .heart-icon:hover { transform: scale(1.2); }
+
+        #favorites-section { margin-bottom: 40px; }
+
+        .carousel-container {
+            display: flex; overflow-x: auto; gap: 20px; padding: 10px; padding-bottom: 20px; scroll-behavior: smooth;
+        }
+        .carousel-container .card {
+            min-width: 250px; max-width: 300px; flex-shrink: 0; border: 2px solid #e89a59;
+        }
+        .carousel-container::-webkit-scrollbar { height: 8px; }
+        .carousel-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+        footer{
+            text-align: center; padding: 20px; margin-top: 40px;
+            background: #e89a59; color: #001A66;
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <h1>Les éléments météorologiques</h1>
-    <p>Comprendre les phénomènes qui influencent notre météo quotidienne</p>
-  </header>
+<header>
+    <div id="user-menu">
+        <div id="google-button-container"></div>
+        <img id="user-avatar" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar" referrerpolicy="no-referrer">
+        <span id="user-name">Invité (Connexion)</span>
+    </div>
+    <h1>Météo simple</h1>
+    <p>Accueil du projet — Accès aux articles</p>
+</header>
 
-  <main>
+<main>
     <section class="intro">
-      <h2>Bienvenue</h2>
-      <p>
-        Cette page d'accueil introduit les principaux éléments météorologiques : nuages, pluie, vent, température, pression, et autres phénomènes qui façonnent notre climat. Vous y trouverez des explications simples et accessibles destinées à un article ou un dossier éducatif.
-      </p>
+        <h2>Bienvenue</h2>
+        <p>Retrouvez ici l'ensemble des articles météorologiques : incendies, sécheresse, ouragans, neige, fronts, pression atmosphérique et plus.</p>
     </section>
 
-    <!-- Prévisualisation de la page 2 -->
-    <section style="margin-top:20px;">
-      <h2>Page 2 — Prévisualisation</h2>
-      <iframe src="index.html" width="100%" height="500" style="border:1px solid #ccc; border-radius:10px;"></iframe>
+    <section id="favorites-section">
+        <h2 style="color:#e89a59;">❤️ Vos Favoris</h2>
+
+        <p id="not-connected-msg" style="color:red; background:#ffe6e6; padding:10px; border-radius:5px; text-align:center; font-weight:bold;">
+            Connectez-vous afin d'enregistrer vos favoris
+        </p>
+
+        <div id="connected-content" style="display:none;">
+            <p>Retrouvez ici vos articles sauvegardés :</p>
+            <div id="favorites-container" class="carousel-container">
+            </div>
+        </div>
     </section>
+
+    <section style="margin-top:20px;">
+        <h2>Page 2 — Prévisualisation</h2>
+        <iframe src="index.html" width="100%" height="500" style="border:1px solid #ccc; border-radius:10px;"></iframe>
+    </section>
+
+    <div style="text-align:center; margin:25px 0; padding:15px; background:#e89a59; color:#001A66; border-radius:10px; font-weight:bold; font-size:1.2rem; display:block; grid-column:1 / -1; width:97%;">
+        Nos articles
+    </div>
 
     <section class="sections">
-      <div class="card">
-        <h3>Les nuages</h3>
-        <p>Types de nuages, formation, altitude et rôle dans la prédiction du temps.</p>
-      </div>
 
-      <div class="card">
-        <h3>La pluie et les précipitations</h3>
-        <p>Cycle de l'eau, conditions d'apparition de la pluie, neige, grêle et intensités.</p>
-      </div>
+        <a class="card" href="articles/incendies_2025.html">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="text-decoration: underline;">Incendies de forêts 2025</h3>
+                <span class="heart-icon" data-name="Incendies de forêts 2025" onclick="toggleFavorite(event, this)">♡</span>
+            </div>
+            <p>Analyse du blocage atmosphérique, statistiques et impacts régionaux.</p>
+        </a>
 
-      <div class="card">
-        <h3>Le vent</h3>
-        <p>Origine des vents, courants atmosphériques, vitesse et direction.</p>
-      </div>
+        <a class="card" href="articles/secheresse_chaleur.html">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="text-decoration: underline;">Sécheresse & chaleur</h3>
+                <span class="heart-icon" data-name="Sécheresse & chaleur" onclick="toggleFavorite(event, this)">♡</span>
+            </div>
+            <p>Conditions estivales extrêmes et impacts climatologiques.</p>
+        </a>
 
-      <div class="card">
-        <h3>La température</h3>
-        <p>Pourquoi les températures varient, effets du soleil et des masses d'air.</p>
-      </div>
+        <a class="card" href="articles/ouragan_melissa.html">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="text-decoration: underline;">Ouragan Melissa</h3>
+                <span class="heart-icon" data-name="Ouragan Melissa" onclick="toggleFavorite(event, this)">♡</span>
+            </div>
+            <p>Formation, trajectoire et conséquences de ce système tropical.</p>
+        </a>
 
-      <div class="card">
-        <h3>La pression atmosphérique</h3>
-        <p>Pression haute et basse, influence sur le temps et les masses d'air.</p>
-      </div>
+        <div style="text-align:center; margin:25px 0; padding:15px; background:#e89a59; color:#001A66; border-radius:10px; font-weight:bold; font-size:1.2rem; display:block; grid-column:1 / -1; width:97%;">
+            Ce qui pourrait vous intéresser
+        </div>
 
-      <div class="card">
-        <h3>Les phénomènes extrêmes</h3>
-        <p>Orages, cyclones, canicules : comment se forment-ils ?</p>
-      </div>
+        <a class="card" href="articles/neige_quebec.html">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="text-decoration: underline;">Neige au Québec</h3>
+                <span class="heart-icon" data-name="Neige au Québec" onclick="toggleFavorite(event, this)">♡</span>
+            </div>
+            <p>Précipitations hivernales et particularités météorologiques.</p>
+        </a>
+
+        <a class="card" href="articles/pressionAcmos.html">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="text-decoration: underline;">Pression atmosphérique</h3>
+                <span class="heart-icon" data-name="Pression atmosphérique" onclick="toggleFavorite(event, this)">♡</span>
+            </div>
+            <p>Étude spécialisée sur les variations et phénomènes associés.</p>
+        </a>
+
+        <a class="card" href="articles/fronts.html">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="text-decoration: underline;">Les fronts</h3>
+                <span class="heart-icon" data-name="Les fronts" onclick="toggleFavorite(event, this)">♡</span>
+            </div>
+            <p>Fronts froids, chauds et occlus — explications et schémas.</p>
+        </a>
+
     </section>
-  </main>
 
-  <footer>
-    © Article — Les éléments météorologiques
-  </footer>
+</main>
+
+<footer>
+    © Projet météo — 2025
+</footer>
+
+<script>
+
+    const GOOGLE_CLIENT_ID = "627927284714-f11a1jfo7h36o57j8rem5ugjpdu1ka3o.apps.googleusercontent.com";
+    const SUPABASE_URL = "https://fkneemlnxqbgdyhdtaet.supabase.co";
+
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrbmVlbWxueHFiZ2R5aGR0YWV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzMDk3MjcsImV4cCI6MjA4MDg4NTcyN30.EH7qrY4qVT-Tktfzjd3gI1pYIpHi_q9Z_dwATIo_0-0";
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    let currentUserEmail = null;
+    
+    function decodeJwtResponse(token){
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g,'+').replace(/_/g,'/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(c => '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        return JSON.parse(jsonPayload);
+    }
+
+    async function handleCredentialResponse(response){
+        try {
+            const data = decodeJwtResponse(response.credential);
+            document.getElementById("user-name").innerText = data.name;
+            document.getElementById("user-avatar").src = data.picture;
+
+            const btn = document.getElementById("google-button-container");
+            if(btn) btn.remove();
+            document.getElementById("user-menu").style.cursor="default";
+
+            document.getElementById("not-connected-msg").style.display="none";
+            document.getElementById("connected-content").style.display="block";
+
+            currentUserEmail = data.email;
+            await loadFavorites();
+        } catch(e) {
+            console.error("Erreur connexion", e);
+        }
+    }
+    
+    async function toggleFavorite(event, element){
+
+        event.preventDefault();
+        event.stopPropagation(); 
+
+        const cardName = element.getAttribute("data-name");
+
+        if(!currentUserEmail){
+            alert("Veuillez vous connecter pour gérer vos favoris.");
+            return;
+        }
+
+        const isHeartFull = element.innerText.includes("♥");
+        
+        element.innerText = isHeartFull ? "♡" : "♥";
+        element.style.color = isHeartFull ? "#ccc" : "red";
+
+        if(isHeartFull){
+            const { error } = await supabase.from('favoris').delete().eq('user_email', currentUserEmail).eq('card_name', cardName);
+            if(error) console.error("Erreur delete", error);
+        } else {
+            const { error } = await supabase.from('favoris').insert([{user_email: currentUserEmail, card_name: cardName}]);
+            if(error) console.error("Erreur insert", error);
+        }
+
+        await loadFavorites();
+    }
+
+    async function loadFavorites(){
+        if(!currentUserEmail) return;
+
+        const { data, error } = await supabase.from('favoris').select('card_name').eq('user_email', currentUserEmail);
+        if(error) return;
+
+        const favContainer = document.getElementById("favorites-container");
+        favContainer.innerHTML = "";
+
+        // Reset visuel
+        document.querySelectorAll('.sections .heart-icon').forEach(icon => { icon.innerText = "♡"; icon.style.color = "#ccc"; });
+
+        if(data && data.length > 0) {
+            data.forEach(fav => {
+                const originalHeart = document.querySelector(`.sections .heart-icon[data-name="${fav.card_name}"]`);
+                if(originalHeart){
+                    originalHeart.innerText = "♥";
+                    originalHeart.style.color = "red";
+                    
+                    const originalCard = originalHeart.closest('.card');
+                    const clone = originalCard.cloneNode(true);
+                    
+                    favContainer.appendChild(clone);
+                }
+            });
+        }
+    }
+
+    window.onload = function(){
+        google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleCredentialResponse });
+        google.accounts.id.renderButton( document.getElementById("google-button-container"), {theme:"outline", size:"large", type:"standard"} );
+    };
+</script>
 </body>
 </html>
