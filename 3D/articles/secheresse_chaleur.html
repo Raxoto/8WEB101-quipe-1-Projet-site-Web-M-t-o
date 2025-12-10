@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sècheresse et Chaleur - Été/Automne 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Aptos&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style_meteo.css">
+</head>
+<body>
+<header>
+    <h1>Anomalies 2025 : Sècheresse et Chaleur</h1>
+</header>
+
+<main>
+    <section class="fade-in">
+        <h2>La Sècheresse de l'été 2025</h2>
+        <p>
+            L'été au Québec aura été en deux temps : des mois de mai et juin très humides, un mois de juillet dans les moyennes, et des mois d'août, septembre et octobre secs.
+        </p>
+
+        <figure>
+            <img src="https://img.lemde.fr/2025/10/17/0/0/5534/3627/664/0/75/0/1451c16_upload-1-anflhk8ib6y7-ap25290481048214.jpg" alt="Niveau de l'eau très bas dans le fleuve St-Laurent">
+            <figcaption>Le fleuve St-Laurent à sec par endroits. Crédits : Christinne Muschi | AP </figcaption>
+        </figure>
+
+        <p>
+            L'anticyclone des Bermudes était un peu plus au nord qu'à son habitude en raison de la température plus chaude du Gulf Stream. Cette présence plus au nord a favorisé la montée de l'air chaud du sud.
+        </p>
+
+        <h3>Effets sur le Québec</h3>
+        <ul>
+            <li>Les précipitations étaient moindres que les moyennes (près de la moitié) pour août, septembre et octobre.</li>
+            <li>Des conditions de sècheresse ont été rapportées à plusieurs endroits.</li>
+            <li>Les bateaux dans les marinas touchaient le sol et des épaves étaient visibles.</li>
+            <li>Certaines municipalités ont rationné l'eau.</li>
+        </ul>
+
+        <figure>
+            <img src="https://images.twnmm.com/c55i45ef3o2a/p84ahRRxnUNTQ0ZQWX1HK/0afee4801d8cf9854ef3b4228dd0bb06/SYSTEME1.jpg?w=3840&q=80&fm=webp" alt="Bilan des précipitations reçues">
+            <figcaption>Déficit de précipitations au mois de septembre 2025. Source: MétéoMédia</figcaption>
+        </figure>
+    </section>
+
+    <section class="slide-in">
+        <h2>Records de chaleur d'octobre</h2>
+        <p>
+            Au début du mois d'octobre 2025, nous avons battu beaucoup de records de chaleur au Québec. Les températures avoisinaient les 30°C, ce qui est très anormal pour la période.
+        </p>
+
+        <div class="info-box">
+            <h3>L'explication météo</h3>
+            <p>
+                L'anticyclone des Bermudes était à son plus fort et le plus au nord possible à la fin septembre. De plus, une dépression était présente au nord du Québec. Le mouvement combiné (horaire autour de l'anticyclone, antihoraire autour de la dépression) a pompé l'air chaud vers le nord.
+            </p>
+        </div>
+
+        <figure>
+            <img src="https://static1.mclcm.net/iod/images/v2/18/photo/443209/630x354_100_300_000000x30x0.jpg?ts=20251006142904">
+            <figcaption>Situation générale montrant la remontée d'air chaud. Source : La chaîne Météo</figcaption>
+        </figure>
+
+        <p>
+            Plusieurs records de chaleur sont tombés au Québec, un signe que les réchauffements climatiques sont bien réels.
+        </p>
+    </section>
+</main>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in, .slide-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incendies de forêts au Canada 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Aptos&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style_meteo.css">
+</head>
+<body>
+<header>
+    <h1>Les incendies de forêts 2025</h1>
+</header>
+
+<main>
+    <section class="fade-in">
+        <h2>Introduction</h2>
+        <p>
+            Très tôt dans l'été, il y a eu plusieurs incendies dans les Prairies et Rocheuses canadiennes. Au Québec, c'était tout le contraire! Nous avons eu des valeurs de précipitations au-dessus de la moyenne pour la même période. Qu'est-ce qui a pu créer ces deux extrêmes en même temps?
+        </p>
+        <div class="info-box">
+            <h3>Statistiques 2025</h3>
+            <ul>
+                <li>Il y a eu 6125 feux au Canada en 2025.</li>
+                <li>Superficie brûlée : 8 922 148 Ha (2e total le plus élevé de l'histoire).</li>
+                <li>Des dizaines de communautés ont dû être évacuées.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide-in">
+        <h2>Genèse : Le Blocage</h2>
+        <figure>
+            <img src="https://www.meteo-paris.com/_next/image?url=https%3A%2F%2Fs.meteo-villes.com%2Fuploads%2Fblocage-omega-USA.jpg&w=1920&q=75">
+            <figcaption>Schéma du dôme de chaleur. Source : CBSN via Météo-Paris </figcaption>
+        </figure>
+
+        <p>
+            Un anticyclone localisé dans les Prairies canadiennes a fait du surplace au début de l'été. En raison de la rotation horaire autour de l'anticyclone, l'air froid de l'arctique canadien allait vers le Québec et l'Ontario, et l'air chaud du golfe du Mexique et du centre des États-Unis allait vers les Prairies.
+        </p>
+        <p>
+            Naturellement, les sols sont secs dans ces régions. Les conditions étaient propices pour une saison hâtive des feux de forêts.
+        </p>
+    </section>
+
+    <section class="fade-in">
+        <h2>Trajectoire et Conséquences</h2>
+        <p>
+            Un air sec était omniprésent dans les Prairies. Le courant-jet atmosphérique circule d'ouest en est dans l'hémisphère nord. La fumée était poussée en altitude et s'est dirigée vers l'Est du continent Nord-Américain.
+        </p>
+
+        <h3>Impacts contrastés</h3>
+        <ul>
+            <li><strong>Ouest canadien :</strong> Plus de 8 millions d'hectares brûlés. Manitoba, Alberta, Saskatchewan et Colombie-Britannique très touchés.</li>
+            <li><strong>Québec :</strong> Beaucoup de fumée provenant de ces feux. Cependant, les masses d'air humide étaient dirigées vers le Québec, causant des précipitations au-dessus des normales.</li>
+        </ul>
+    </section>
+</main>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in, .slide-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

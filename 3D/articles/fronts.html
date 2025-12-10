@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Les Fronts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fronts.css">
+</head>
+<body>
+  <h1>Les Fronts</h1>
+  
+  <main>
+    <h2 class="fade-in">Introduction</h2>
+    <p class="fade-in">
+      Les fronts sont associés avec les systèmes de basses pressions. Ils tournent autour de ceux-ci. Bien sûr, entre les deux masses d'air, il y a une zone de transition nommée la zone de mixage.
+    </p>
+    
+    <h3 class="slide-left">Les Fronts froids</h3>
+    <figure class="zoom-in">
+      <img src="https://cms.alloprof.qc.ca/sites/default/files/styles/1920w/public/2020-07/front_froid_0.jpg?itok=l0np1Xgf" alt="Un front froid vu sur une carte" width="800" height="450">
+      <figcaption>Un front froid vu sur une carte. Source : Allo Prof</figcaption>
+    </figure>
+    
+    <p class="fade-in">
+      Un front froid est l'avant d'une masse d'air froide qui avance. L'air froid est plus dense que l'air chaud. Lors de son passage, elle pousse vers l'avant et soulève en altitude l'air chaud. Cet air peut se condenser rapidement et créer des phénomènes météo dont la formation est très rapide en raison de la rapidité du changement d'état de l'air chaud.
+    </p>
+    
+    <p class="fade-in">
+      L'angle du front est prononcé, ce qui cause le soulèvement rapide de la masse d'air chaud. Si cette masse contient suffisamment d'humidité, des nuages et des précipitations se formeront. Les fronts froids sont généralement associés avec des nuages convectifs comme des cumulonimbus (orages).
+    </p>
+    
+    <figure class="zoom-in">
+      <img src="https://cms.alloprof.qc.ca/sites/default/files/styles/1920w/public/2020-07/front_froid.jpg?itok=8uNXb6kO" alt="La forme d'un front froid" width="800" height="450">
+      <figcaption>La forme d'un front froid. Source : Allo Prof</figcaption>
+    </figure>
+    
+    <h3 class="slide-right">Les Fronts chauds</h3>
+    <figure class="zoom-in">
+      <img src="https://cms.alloprof.qc.ca/sites/default/files/styles/1920w/public/2020-07/front_chaud_0.jpg?itok=PXEKwDbh" alt="La forme d'un front chaud sur une carte" width="800" height="450">
+      <figcaption>La forme d'un front chaud sur une carte. Source : Allo Prof</figcaption>
+    </figure>
+    
+    <p class="fade-in">
+      Un front chaud est l'arrière d'une masse d'air froid qui se retire. L'air chaud remplit le vide créé par ce retrait. L'air est beaucoup plus stable et le mouvement des phénomènes météo beaucoup plus lent. Une large masse d'air chaud peut se trouver en altitude lors du retrait de l'air froid en raison de la forme du front.
+    </p>
+    
+    <p class="fade-in">
+      L'angle du front est beaucoup plus doux et des nuages plus larges et stables peuvent se former dans la zone d'air chaud. Une vaste étendue de nuages peut se trouver au-dessus de l'air froid ou à l'arrière du front chaud. Des précipitations continues de plusieurs heures peuvent y être associées.
+    </p>
+    
+    <figure class="zoom-in">
+      <img src="https://cms.alloprof.qc.ca/sites/default/files/styles/1920w/public/2020-07/front_chaud.jpg?itok=zk-2aKUl" alt="La forme d'un front chaud" width="800" height="450">
+      <figcaption>La forme d'un front chaud. Source : Allo Prof</figcaption>
+    </figure>
+  </main>
+
+  <script>
+    // Fonction pour observer les éléments et les animer au scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observer tous les éléments avec des classes d'animation
+    document.addEventListener('DOMContentLoaded', () => {
+      const animatedElements = document.querySelectorAll('.fade-in, .slide-left, .slide-right, .zoom-in');
+      animatedElements.forEach(el => observer.observe(el));
+    });
+  </script>
+</body>
+</html>

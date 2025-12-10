@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neige hâtive au Québec - Novembre 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Aptos&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style_meteo.css">
+</head>
+<body>
+<header>
+    <h1>Pourquoi de la neige si tôt ?</h1>
+</header>
+
+<main>
+    <section class="fade-in">
+        <h2>Introduction</h2>
+        <p>
+            Il est très rare d'avoir de la neige partout au Québec si tôt en novembre. Par exemple, la première neige durable à Montréal est en moyenne le 28 novembre. Mais que s'est-il passé le 11 novembre 2025 ? 
+        </p>
+
+        <figure>
+            <img src="https://www.meteo-paris.com/_next/image?url=https%3A%2F%2Fs.meteo-villes.com%2Fuploads%2Ftest-sylvain%2Fusa-froid-11nov.png&w=1920&q=75" alt="Carte des températures à 850 hPa">
+            <figcaption>Températures à 850 hPa (vers 1500m) ce Mardi 11 Novembre 2025. Source: WXCHARTS / Metdesk</figcaption>
+        </figure>
+
+        <div class="info-box">
+            <h3>En Bref</h3>
+            <ul>
+                <li>Une quinzaine de centimètres de neige sont tombés dans la plupart des régions du Québec.</li>
+                <li>Cette neige était dense et, pour la plupart des régions, elle est restée au sol.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide-in">
+        <h2>Genèse et Mécanique</h2>
+        <p>
+            Une dépression est passée au sud-est des Appalaches. Cette dépression a permis à l'air froid du nord d'envahir le Québec.
+        </p>
+        <p>
+            Bien que les températures en surface soient au-dessus du point de congélation, l'air froid était bien présent en altitude. L'humidité associée à la dépression a formé de la neige en altitude et cette neige n'a pas fondu jusqu'au sol, créant les accumulations connues.
+        </p>
+    </section>
+
+    <section class="fade-in">
+        <h2>Trajectoire</h2>
+        <p>
+            La dépression s'est formée à l'est du Texas et s'est déplacée vers l'est en passant par le sud de la chaîne de montagnes des Appalaches. Elle a par la suite continué sa route vers la mer du Labrador et s'est imbriquée dans la dépression d'Islande.
+        </p>
+    </section>
+
+    <section class="slide-in">
+        <h2>Les effets au Québec</h2>
+        <p>
+            Le mouvement de la dépression a pompé de l'air froid au-dessus du Québec pour plusieurs jours. En raison de la rotation de l'air dans le sens antihoraire, pendant toute la course de la dépression, l'air provenait du nord.
+        </p>
+        <figure>
+            <img src="https://meteochicoutimi.com/wp-content/uploads/2025/11/11.98-11-25.jpg" alt="Pannes d'électricité et arbres brisés par la neige">
+            <figcaption>Pannes d'électricité causées par le poids de la neige sur les arbres. Source : Météo Chicoutimi </figcaption>
+        </figure>
+        <p>
+            Il y a eu une dizaine de centimètres de neige dans le sud du Québec et une vingtaine au Saguenay, causant des bris du réseau de distribution d'électricité pendant les précipitations (poids de la neige).
+        </p>
+    </section>
+</main>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in, .slide-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

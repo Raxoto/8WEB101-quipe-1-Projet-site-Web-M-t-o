@@ -1,0 +1,138 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Aptos, sans-serif;
+  line-height: 1.6;
+  background-color: #000c69;
+  color: #fff8f0;
+}
+
+/* Barre du haut */
+header {
+  background-color: #f09b59;
+  padding: 30px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+}
+
+header h1 {
+  color: #000c69;
+  text-align: center;
+  font-size: 3em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #3580bb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #fff8f0;
+  margin-bottom: 40px;
+}
+
+h2 {
+  color: #f09b59;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f09b59;
+}
+
+h3 {
+  color: #fff0e0;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+figure {
+  margin: 25px 0;
+}
+
+figcaption {
+  text-align: center;
+  font-style: italic;
+  color: #fff0e0;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+ul {
+  background-color: rgba(255, 240, 224, 0.15);
+  padding: 20px 40px;
+  margin: 15px 0;
+  border-left: 4px solid #f09b59;
+  border-radius: 4px;
+}
+
+ul li {
+  margin-bottom: 8px;
+  color: #fff8f0;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+.info-box {
+  background-color: rgba(240, 155, 89, 0.2);
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border-left: 5px solid #f09b59;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.info-box h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #f09b59;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.info-box ul {
+  background-color: transparent;
+  padding: 0 0 0 20px;
+  border: none;
+}
+
+/* Animations au scroll */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Délai pour effet staggered */
+.fade-in-section:nth-child(even) {
+  transition-delay: 0.1s;
+}

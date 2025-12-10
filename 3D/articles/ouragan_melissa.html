@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'ouragan Mélissa - Analyse Météo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Aptos&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style_meteo.css">
+</head>
+<body>
+<header>
+    <h1>L'ouragan Mélissa</h1>
+</header>
+
+<main>
+    <section class="fade-in">
+        <h2>Introduction</h2>
+        <p>
+            Entre le 21 octobre et le 4 novembre, l'ouragan Mélissa a fait les manchettes. Et pour cause, c'était l'un des ouragans les plus puissants jamais enregistrés.
+        </p>
+        <div class="info-box">
+            <h3>En Bref</h3>
+            <ul>
+                <li>L'ouragan s'est formé dans la mer des Caraïbes.</li>
+                <li>Il a fait du surplace quelques jours avant de se diriger vers le nord le 27 octobre, causant de graves dommages en Jamaïque.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide-in">
+        <h2>Genèse</h2>
+        <p>
+            Une onde de tempête s'est formée entre l'Afrique et les Caraïbes au début du mois d'octobre. Cette onde s'est installée dans la mer des Caraïbes vers la mi-octobre.
+        </p>
+        <p>
+            Son mouvement cyclonique s'est amplifié au fil des jours. Sa position quasi stationnaire a permis au cyclone tropical de s'intensifier et d'absorber beaucoup d'énergie provenant de la mer des Caraïbes. Toute cette chaleur accumulée a fait baisser la pression atmosphérique au centre de l'ouragan, ce qui a augmenté la différence de pression entre les environs et le centre de la tempête.
+        </p>
+        <p>
+            Ce phénomène a causé les forts vents enregistrés. Il y a eu une rafale de vent mesurée à 406 km/h à une altitude de 200m.
+        </p>
+    </section>
+
+    <section class="fade-in">
+        <h2>Trajectoire et Impacts</h2>
+        <figure>
+            <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Lorenzo_2019_track.png/1200px-Lorenzo_2019_track.png" alt="Trajectoire de l'ouragan dans l'Atlantique"> -->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Melissa_2025_path.png/1151px-Melissa_2025_path.png" alt="Trajectoire de l'ouragan dans l'Atlantique">
+            <figcaption>Trajectoire de l'ouragan Mélissa dans l'Atlantique. Source: NASA et NOAA </figcaption>
+        </figure>
+
+        <p>
+            À partir du 27 octobre, l'ouragan a arrêté de faire du surplace et a commencé sa trajectoire vers le Nord-Est, dû à l'effet de Coriolis.
+        </p>
+        <ul>
+            <li><strong>27 octobre :</strong> Touche terre à son plus fort en Jamaïque (catégorie 5).</li>
+            <li><strong>28 octobre :</strong> Touche l'Est de Cuba (Catégorie 3).</li>
+            <li><strong>29 octobre :</strong> Passage aux Bahamas.</li>
+            <li><strong>30-31 octobre :</strong> Touche les Bermudes (Catégorie 1). La tempête devient post-tropicale au large de Terre-Neuve début novembre.</li>
+        </ul>
+    </section>
+
+    <section class="slide-in">
+        <h2>Les effets au Québec</h2>
+        <p>
+            L'humidité apportée par Mélissa au nord s'est fusionnée avec une autre dépression provenant du Texas. L'effet combiné des deux systèmes dépressionnaires a causé une rivière atmosphérique qui a laissé 41,3 mm à Montréal et 38,9 mm à Québec.
+        </p>
+    </section>
+</main>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in, .slide-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
